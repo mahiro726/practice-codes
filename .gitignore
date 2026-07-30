@@ -1,0 +1,81 @@
+# ===================== 编译产物 C/C++ =====================
+*.o
+*.obj
+*.exe
+*.out
+*.a
+*.lib
+*.dll
+*.so
+*.dylib
+*.bin
+*.elf
+*.map
+*.gcov
+*.gcno
+*.gcda
+
+# 调试文件
+*.pdb
+*.ilk
+*.suo
+
+# ===================== 临时文件、备份文件 =====================
+*~
+*.swp
+*.swo
+*.tmp
+*.temp
+*.bak
+*.backup
+# 记事本、编辑器自动备份
+._*
+
+# ===================== 系统生成垃圾文件 =====================
+# Windows
+Thumbs.db
+Desktop.ini
+# MacOS
+.DS_Store
+.AppleDouble
+._.DS_Store
+
+# ===================== VSCode =====================
+.vscode/
+*.code-workspace
+
+# ===================== CLion / JetBrains IDE =====================
+.idea/
+cmake-build-*/
+cmake-build-debug/
+cmake-build-release/
+*.iml
+*.iws
+*.ipr
+
+# ===================== Dev-C++ / MinGW =====================
+*.layout
+*.cbp
+*.depend
+
+# ===================== 日志、输出数据、测试文件 =====================
+*.log
+*.txt.out
+output/
+build/
+Debug/
+Release/
+bin/
+obj/
+target/
+
+# ===================== 大型压缩包、媒体文件（按需开启）=====================
+# 如果你不想上传压缩包、视频、图片，取消下面注释
+# *.zip
+# *.rar
+# *.7z
+# *.tar
+# *.gz
+# *.mp4
+# *.png
+# *.jpg
