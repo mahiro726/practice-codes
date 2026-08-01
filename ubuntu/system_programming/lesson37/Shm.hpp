@@ -63,6 +63,20 @@ public:
         (void)n;
     }
 
+    void Attr()
+    {
+        struct shmid_ds ds;
+        int n = shmctl(_shmid, IPC_STAT, &ds);
+        if (n < 0)
+        {
+            perror("shmctl error: ");
+            exit(4);
+        }
+        printf("key: 0x%x\n", ds.shm_perm.__key);
+        printf("shm_nttach: %ld\n", ds.shm_nattch);
+        printf("shm_segsz: 0x%lx\n", ds.shm_segsz);
+    }
+
     void* Addr()
     {
         return _start_addr;

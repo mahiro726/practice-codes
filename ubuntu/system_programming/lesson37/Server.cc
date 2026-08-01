@@ -7,6 +7,8 @@ int main()
     sharedmem.Create();
     sharedmem.Attach();
 
+    sharedmem.Attr();
+
     char* shm_start = (char*)sharedmem.Addr();
     int size = sharedmem.Size();
 
