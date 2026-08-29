@@ -40,6 +40,28 @@ namespace lcc
             _inorder(cur->_right);
         }
 
+        bool _insert(Node*& root, const T& x)
+        {
+            if (root == nullptr)
+            {
+                root = new Node(x);
+                return true;
+            }
+
+            if (x < root->_key)
+            {
+                return _insert(root->_left, x);
+            }
+            else if (x > root->_key)
+            {
+                return _insert(root->_right, x);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     public:
         BSTree()
         {
