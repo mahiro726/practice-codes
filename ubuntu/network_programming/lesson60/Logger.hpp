@@ -202,11 +202,11 @@ namespace NS_LOG_MODULE
             {
                 // 先构建出来左半部分
                 std::stringstream ss;
-                ss << "[" << _curr_time << "]"
-                   << "[" << LogLevel2Message(_level) << "]"
-                   << "[" << _pid << "]"
-                   << "[" << _filename << "]"
-                   << "[" << _line << "]";
+                ss << "[" << _curr_time << "] "
+                   << "[" << LogLevel2Message(_level) << "] "
+                   << "[" << _pid << "] "
+                   << "[" << _filename << "] "
+                   << "[" << _line << "]  - ";
 
                 _loginfo = ss.str();
             }
