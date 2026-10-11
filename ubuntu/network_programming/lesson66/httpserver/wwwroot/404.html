@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面未找到 · 404</title>
+    <!-- 柔和的现代风格，无外部依赖，开箱即用 -->
+    <style>
+        /* 全局重置与字体 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f7f9fc;  /* 柔和浅灰蓝背景 */
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            padding: 1.5rem;
+            color: #1e293b;
+        }
+
+        /* 卡片容器 — 干净、轻盈、有呼吸感 */
+        .error-card {
+            max-width: 560px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 2.5rem;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 
+                        0 4px 18px rgba(0, 0, 0, 0.03);
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+
+        /* 巨大但友好的错误数字 */
+        .error-code {
+            font-size: 7rem;
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -0.02em;
+            color: #0f172a;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+        }
+
+        /* 让数字 404 更有设计感 — 中间 0 用渐变点缀 */
+        .error-code span {
+            display: inline-block;
+        }
+
+        .error-code .zero {
+            background: linear-gradient(145deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        /* 副标题 */
+        .error-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #0f172a;
+            letter-spacing: -0.01em;
+        }
+
+        /* 说明文字 */
+        .error-description {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #475569;
+            margin-bottom: 2rem;
+            padding: 0 0.5rem;
+        }
+
+        /* 按钮区域 */
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        /* 主按钮 — 返回首页 */
+        .btn-home {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: #0f172a;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 1rem;
+            padding: 0.9rem 2rem;
+            border-radius: 60px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 18px -6px rgba(15, 23, 42, 0.25);
+            flex: 0 1 auto;
+        }
+
+        .btn-home:hover {
+            background: #1e293b;
+            transform: translateY(-2px);
+            box-shadow: 0 14px 24px -8px rgba(15, 23, 42, 0.3);
+        }
+
+        .btn-home:active {
+            transform: translateY(0);
+            box-shadow: 0 6px 12px -4px rgba(15, 23, 42, 0.2);
+        }
+
+        /* 次级按钮 — 返回上一页 */
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: transparent;
+            color: #334155;
+            font-weight: 500;
+            font-size: 1rem;
+            padding: 0.9rem 1.8rem;
+            border-radius: 60px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1.5px solid #cbd5e1;
+            cursor: pointer;
+            flex: 0 1 auto;
+        }
+
+        .btn-back:hover {
+            background: #f1f5f9;
+            border-color: #94a3b8;
+            color: #0f172a;
+            transform: translateY(-2px);
+        }
+
+        .btn-back:active {
+            transform: translateY(0);
+        }
+
+        /* 小图标内联 (使用 emoji 或简单字符，无需额外资源) */
+        .icon {
+            font-size: 1.25rem;
+            line-height: 1;
+            display: inline-block;
+        }
+
+        /* 极简装饰分隔线 (可选，增加层次) */
+        .divider {
+            width: 60px;
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            margin: 1.5rem auto 1.8rem;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 480px) {
+            .error-card {
+                padding: 2rem 1.5rem;
+                border-radius: 2rem;
+            }
+
+            .error-code {
+                font-size: 5.5rem;
+            }
+
+            .error-title {
+                font-size: 1.5rem;
+            }
+
+            .error-description {
+                font-size: 1rem;
+                margin-bottom: 1.75rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .btn-home,
+            .btn-back {
+                width: 100%;
+                padding: 0.85rem 1.5rem;
+            }
+
+            .divider {
+                margin: 1.2rem auto 1.5rem;
+            }
+        }
+
+        /* 无障碍: 焦点样式 */
+        .btn-home:focus-visible,
+        .btn-back:focus-visible {
+            outline: 3px solid #3b82f6;
+            outline-offset: 3px;
+        }
+
+        /* 鼠标指针说明 */
+        .btn-home,
+        .btn-back {
+            cursor: pointer;
+        }
+
+        /* 一段小小的隐藏文本，用于屏幕阅读器增强 */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-card">
+        <!-- 404 大数字，中间 0 带渐变强调 -->
+        <div class="error-code" aria-hidden="true">
+            <span>4</span><span class="zero">0</span><span>4</span>
+        </div>
+
+        <!-- 隐藏的 H1 用于屏幕阅读器 -->
+        <h1 class="sr-only">404 - 页面未找到</h1>
+
+        <!-- 友好标题 -->
+        <div class="error-title">哎呀，页面不见了</div>
+
+        <!-- 说明文字 -->
+        <p class="error-description">
+            您访问的页面可能已被移动、删除，或者从未存在过。<br>
+            请检查网址是否正确，或返回首页继续浏览。
+        </p>
+
+        <!-- 简洁装饰线 -->
+        <div class="divider" aria-hidden="true"></div>
+
+        <!-- 操作按钮组 -->
+        <div class="action-buttons">
+            <!-- 返回首页按钮 -->
+            <a href="/" class="btn-home">
+                <span class="icon">🏠</span> 返回首页
+            </a>
+            <!-- 返回上一页按钮 (使用 javascript:history.back() 实现) -->
+            <a href="javascript:history.back()" class="btn-back">
+                <span class="icon">↩️</span> 返回上一页
+            </a>
+        </div>
+    </div>
+
+    <!-- 极简脚本：如果用户禁用了javascript，返回上一页按钮可以优雅降级为首页链接？但其实href="javascript:..." 在禁用js时点击不会有反应。
+         但我们可以添加一个小提示来避免困惑，或者保留默认行为。实际上更好的方式是保留 href 为 “/” 但是通过js修改。
+         为了简单且不影响体验，我们确保当js不可用时，“返回上一页”仍然有基础链接，但这里用javascript:history.back() 在禁用js时无动作。
+         但是现代浏览器的404页面通常允许JS，所以可以接受。为了更稳健，我们可以用onclick的方式，这里保持简洁。
+         如果希望严谨，可以把这个按钮换成一个普通链接到首页？但用户通常需要返回上一页。这里保留常规做法，无伤大雅。 -->
+    <!-- 也可以换成下面这种方式，但是就不加额外脚本了。但为了可访问性和容错，我们添加一小段友好的脚本来优化“返回上一页” -->
+    <script>
+        (function() {
+            // 优雅处理：如果history.back()不可用或者没有历史记录，则跳转至首页
+            const backBtn = document.querySelector('.btn-back');
+            if (backBtn) {
+                backBtn.addEventListener('click', function(e) {
+                    // 如果浏览器不支持 history 或者历史记录长度为0（没有上一页），则跳转首页
+                    if (!window.history || window.history.length <= 1) {
+                        e.preventDefault();  // 阻止默认的 javascript:history.back() 无动作
+                        window.location.href = '/';
+                    }
+                    // 否则正常执行 history.back() (由默认行为处理)
+                });
+            }
+        })();
+    </script>
+</body>
+</html>

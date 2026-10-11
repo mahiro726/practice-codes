@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>拾光笔记 · 个人博客</title>
+    <style>
+        /* 全局重置与基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #faf9f7;  /* 柔和米白 */
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            color: #2d3e50;
+            line-height: 1.7;
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* 主容器：两栏布局 */
+        .blog-wrapper {
+            max-width: 1100px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        /* 左侧主内容区 */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* 博客头部 —— 改为 Flex，左侧标题、右侧导航 */
+        .blog-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            border-bottom: 2px solid #e8e2d9;
+            padding-bottom: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-header .brand h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #1e2a3a;
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-header .brand .subtitle {
+            font-size: 1.1rem;
+            color: #6b7a8a;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .blog-header .brand .subtitle::before {
+            content: "✎";
+            font-size: 1.2rem;
+            opacity: 0.6;
+        }
+
+        /* 右上角导航 */
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            padding-top: 0.4rem;
+        }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.92rem;
+            font-weight: 500;
+            padding: 0.5rem 1.1rem;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #4a6a8a;
+            background: transparent;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover {
+            background: #eef3f8;
+            color: #1e2a3a;
+        }
+
+        /* 登录：描边按钮 */
+        .nav-link.login {
+            border-color: #cbd5e1;
+            color: #334155;
+        }
+
+        .nav-link.login:hover {
+            border-color: #94a3b8;
+            background: #f1f5f9;
+        }
+
+        /* 注册：实心按钮 */
+        .nav-link.register {
+            background: #1e2a3a;
+            color: #ffffff;
+            box-shadow: 0 6px 14px -6px rgba(30, 42, 58, 0.35);
+        }
+
+        .nav-link.register:hover {
+            background: #2d3e50;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 18px -8px rgba(30, 42, 58, 0.45);
+        }
+
+        /* 文章列表 */
+        .post-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* 单篇文章卡片 */
+        .post-card {
+            background: #ffffff;
+            border-radius: 1.5rem;
+            padding: 1.8rem 2rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.02), 0 2px 6px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s ease;
+            border: 1px solid #f0ebe4;
+        }
+
+        .post-card:hover {
+            box-shadow: 0 16px 30px -8px rgba(0, 0, 0, 0.08), 0 4px 10px rgba(0, 0, 0, 0.02);
+            border-color: #e0d8cf;
+            transform: translateY(-3px);
+        }
+
+        .post-card .post-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 0.9rem;
+            color: #8b9aab;
+            margin-bottom: 0.75rem;
+        }
+
+        .post-card .post-meta .date {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .post-card .post-meta .date::before {
+            content: "📅";
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        .post-card .post-meta .category {
+            background: #eef3f8;
+            padding: 0.2rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #4a6a8a;
+            font-weight: 500;
+        }
+
+        .post-card h2 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #1e2a3a;
+            line-height: 1.35;
+            transition: color 0.2s;
+        }
+
+        .post-card h2:hover {
+            color: #3e6b9c;
+        }
+
+        .post-card .post-excerpt {
+            color: #556b7c;
+            font-size: 1rem;
+            margin-bottom: 1.2rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .post-card .read-more {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #3e6b9c;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: gap 0.2s;
+            border-bottom: 1px solid transparent;
+            padding-bottom: 1px;
+        }
+
+        .post-card .read-more:hover {
+            gap: 0.6rem;
+            border-bottom-color: #3e6b9c;
+        }
+
+        .post-card .read-more::after {
+            content: "→";
+            font-size: 1.1rem;
+            line-height: 1;
+        }
+
+        /* 右侧边栏 */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            position: sticky;
+            top: 2rem;
+        }
+
+        /* 侧边栏卡片通用样式 */
+        .sidebar-card {
+            background: #ffffff;
+            border-radius: 1.5rem;
+            padding: 1.8rem 1.5rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.02), 0 2px 6px rgba(0, 0, 0, 0.02);
+            border: 1px solid #f0ebe4;
+        }
+
+        .sidebar-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e2a3a;
+            margin-bottom: 1.2rem;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sidebar-card h3::before {
+            content: "◆";
+            font-size: 0.7rem;
+            color: #b0c4d9;
+        }
+
+        /* 个人简介区域 */
+        .about-me {
+            text-align: center;
+        }
+
+        .avatar {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(145deg, #d9e2ec, #cbd5e1);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.8rem;
+            color: #4a6a8a;
+            border: 3px solid #ffffff;
+            box-shadow: 0 8px 16px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-me .name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1e2a3a;
+            margin-bottom: 0.3rem;
+        }
+
+        .about-me .bio {
+            font-size: 0.95rem;
+            color: #6b7a8a;
+            line-height: 1.6;
+        }
+
+        /* 分类标签云 */
+        .category-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+        }
+
+        .category-tag {
+            background: #f3f7fb;
+            color: #4a6a8a;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            border: 1px solid #e2eaf2;
+            cursor: default;
+        }
+
+        .category-tag:hover {
+            background: #e2eaf2;
+            border-color: #b8cee0;
+        }
+
+        /* 最近文章小列表 */
+        .recent-posts {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+
+        .recent-posts li {
+            font-size: 0.95rem;
+            color: #3e5a74;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px dashed #e8e2d9;
+            line-height: 1.5;
+            cursor: default;
+            transition: color 0.2s;
+        }
+
+        .recent-posts li:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .recent-posts li:hover {
+            color: #3e6b9c;
+        }
+
+        .recent-posts li .recent-date {
+            display: block;
+            font-size: 0.75rem;
+            color: #a0b2c2;
+            margin-top: 0.2rem;
+        }
+
+        /* 页脚 */
+        .blog-footer {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding-top: 2.5rem;
+            color: #9aabbb;
+            font-size: 0.9rem;
+            border-top: 1px solid #e8e2d9;
+            margin-top: 1rem;
+        }
+
+        .blog-footer span {
+            color: #b0c4d9;
+            font-size: 1rem;
+            margin: 0 0.2rem;
+        }
+
+        /* 响应式 */
+        @media (max-width: 860px) {
+            .blog-wrapper {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .sidebar {
+                position: static;
+            }
+
+            .blog-header h1 {
+                font-size: 2.2rem;
+            }
+
+            .nav-actions {
+                padding-top: 0;
+            }
+        }
+
+        @media (max-width: 520px) {
+            body {
+                padding: 1.5rem 1rem;
+            }
+
+            .post-card {
+                padding: 1.5rem 1.2rem;
+            }
+
+            .post-card h2 {
+                font-size: 1.35rem;
+            }
+
+            .blog-header .brand h1 {
+                font-size: 1.9rem;
+            }
+
+            .sidebar-card {
+                padding: 1.5rem 1.2rem;
+            }
+
+            .nav-actions {
+                gap: 0.4rem;
+            }
+
+            .nav-link {
+                font-size: 0.85rem;
+                padding: 0.45rem 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <img src="image/th.jpg" alt="图片">
+    <div class="blog-wrapper">
+        <!-- 左侧：主要文章内容 -->
+        <div class="main-content">
+            <!-- 博客头部：左侧标题 + 右上角导航 -->
+            <header class="blog-header">
+                <div class="brand">
+                    <h1>拾光笔记</h1>
+                    <div class="subtitle">记录灵感、代码与生活碎片</div>
+                </div>
+
+                <!-- 右上角导航按钮 -->
+                <nav class="nav-actions" aria-label="主导航">
+                    <a href="#" class="nav-link">文章</a>
+                    <a href="#" class="nav-link">分类</a>
+                    <a href="#" class="nav-link">关于</a>
+                    <a href="/login.html" class="nav-link login">登录</a>
+                    <a href="/register.html" class="nav-link register">注册</a>
+                </nav>
+            </header>
+
+            <!-- 文章列表 -->
+            <div class="post-list">
+                <!-- 文章 1 -->
+                <article class="post-card">
+                    <div class="post-meta">
+                        <span class="date">2026 · 09 · 10</span>
+                        <span class="category">前端</span>
+                    </div>
+                    <h2>从零开始搭建个人博客的 5 个心得</h2>
+                    <p class="post-excerpt">
+                        最近终于把搁置已久的个人博客重新设计了一遍。这次没有用任何复杂的框架，而是从最基础的 HTML 和 CSS 出发，反而收获了很多意想不到的乐趣。这篇文章记录了我在布局、配色、字体选择上的一些思考。
+                    </p>
+                    <a href="#" class="read-more">阅读全文</a>
+                </article>
+
+                <!-- 文章 2 -->
+                <article class="post-card">
+                    <div class="post-meta">
+                        <span class="date">2026 · 08 · 28</span>
+                        <span class="category">随想</span>
+                    </div>
+                    <h2>为什么我又开始写博客了</h2>
+                    <p class="post-excerpt">
+                        在短视频和碎片化阅读的时代，写长文似乎变成了一件奢侈的事。但每次整理自己的思考，把它们变成一段段文字时，那种踏实感是任何即时反馈都替代不了的。也许这就是记录的意义。
+                    </p>
+                    <a href="#" class="read-more">阅读全文</a>
+                </article>
+
+                <!-- 文章 3 -->
+                <article class="post-card">
+                    <div class="post-meta">
+                        <span class="date">2026 · 08 · 15</span>
+                        <span class="category">CSS</span>
+                    </div>
+                    <h2>CSS 布局里那些容易忽略的小细节</h2>
+                    <p class="post-excerpt">
+                        最近在帮朋友调页面时发现，很多布局问题其实都源于对默认样式的理解不够。比如 inline 元素的对齐、margin 折叠、box-sizing 的影响……整理了一份自查清单，希望能帮到同样在踩坑的你。
+                    </p>
+                    <a href="#" class="read-more">阅读全文</a>
+                </article>
+
+                <!-- 文章 4 -->
+                <article class="post-card">
+                    <div class="post-meta">
+                        <span class="date">2026 · 07 · 30</span>
+                        <span class="category">生活</span>
+                    </div>
+                    <h2>周末去了一趟旧书店</h2>
+                    <p class="post-excerpt">
+                        在书架间来回走了两个小时，最后只买了一本薄薄的散文集。店主是一位头发花白的爷爷，他说：“书和人一样，遇见就是缘分。”突然觉得，在这个算法推荐的时代，这种偶然的相遇格外珍贵。
+                    </p>
+                    <a href="#" class="read-more">阅读全文</a>
+                </article>
+            </div>
+        </div>
+
+        <!-- 右侧：侧边栏 -->
+        <aside class="sidebar">
+            <!-- 个人简介卡片 -->
+            <div class="sidebar-card about-me">
+                <div class="avatar">☕</div>
+                <div class="name">木子</div>
+                <p class="bio">
+                    一名喜欢折腾的设计师 & 前端爱好者。<br>
+                    在这里记录我的学习笔记和日常思考。
+                </p>
+            </div>
+
+            <!-- 分类卡片 -->
+            <div class="sidebar-card">
+                <h3>文章分类</h3>
+                <div class="category-list">
+                    <span class="category-tag">前端</span>
+                    <span class="category-tag">CSS</span>
+                    <span class="category-tag">JavaScript</span>
+                    <span class="category-tag">随想</span>
+                    <span class="category-tag">生活</span>
+                    <span class="category-tag">读书</span>
+                </div>
+            </div>
+
+            <!-- 最近文章卡片 -->
+            <div class="sidebar-card">
+                <h3>最近更新</h3>
+                <ul class="recent-posts">
+                    <li>
+                        从零开始搭建个人博客的 5 个心得
+                        <span class="recent-date">2026-09-10</span>
+                    </li>
+                    <li>
+                        为什么我又开始写博客了
+                        <span class="recent-date">2026-08-28</span>
+                    </li>
+                    <li>
+                        CSS 布局里那些容易忽略的小细节
+                        <span class="recent-date">2026-08-15</span>
+                    </li>
+                    <li>
+                        周末去了一趟旧书店
+                        <span class="recent-date">2026-07-30</span>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- 页脚（横跨两栏） -->
+        <footer class="blog-footer">
+            <p>© 2026 拾光笔记 <span>·</span> 用文字记录时光</p>
+        </footer>
+    </div>
+</body>
+</html>
